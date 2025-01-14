@@ -1,6 +1,9 @@
 
 # Multi\-Band Blender MATLAB
 
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=cuixing158/multiBandBlender&file=ExamplesEntry.mlx)
+[![View multiBandBlender on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://ww2.mathworks.cn/matlabcentral/fileexchange/179089-multibandblender)
+
 Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用MultiBandBlender类。
 
 # 示例1
