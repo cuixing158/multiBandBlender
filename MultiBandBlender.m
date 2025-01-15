@@ -1,4 +1,4 @@
-classdef MultiBandBlender
+classdef MultiBandBlender<handle
     % Brief: 多频段融合器，用于全景拼接overlap区域或者拼接缝，消除色差，平滑过渡
     % Details:
     %    实现等同于OpenCV中的MultiBandBlender融合器，prepare,feed,blend三个公有外部函数接口
