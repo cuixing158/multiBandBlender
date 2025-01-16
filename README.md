@@ -6,6 +6,15 @@
 
 Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用MultiBandBlender类。
 
+# Requirements
+
+- MATLAB R2024b or later
+- Computer Vision Toolbox™
+- Image Processing Toolbox™
+
+> [!NOTE]
+> 如果需要在MATLAB环境中运行python代码，那么要安装[opencv\-python](https://pypi.org/project/opencv-python/)包。
+
 # 示例1
 
 本示例简单展示了两幅图像overlap区域的融合，从估计对齐的单应矩阵，然后使用alpha线性组合融合有比较明显的重叠区，随后使用multiBand融合可以明显改善效果。当然也支持对多幅图像输入融合，不限于本示例的2幅图像。
