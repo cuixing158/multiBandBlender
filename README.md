@@ -162,7 +162,7 @@ title("Blended Image(multiBandBlend MATLAB Implementation)")
 
 ![figure_4.png](ExamplesEntry_media/figure_4.png)
 
-## opencv内置实现
+## opencv内置实现(可选项)
 
 此处直接调用opencv库的multiBlend看看融合效果，前提需要安装[opencv\-python](https://pypi.org/project/opencv-python/)包。关于更多信息请参阅：[Call Python from MATLAB](https://ww2.mathworks.cn/help/matlab/call-python-libraries.html)
 
