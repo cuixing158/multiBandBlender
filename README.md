@@ -4,9 +4,11 @@
 [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=cuixing158/multiBandBlender&file=ExamplesEntry.mlx)
 [![View multiBandBlender on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://ww2.mathworks.cn/matlabcentral/fileexchange/179089-multibandblender)
 
-Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用[MultiBandBlender类](./MultiBandBlender.m)。
+# :eyes: Overview
 
-# Requirements
+Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用[MultiBandBlender类](./MultiBandBlender.m),三个成员函数`prepare()`,`feed()`,`blend()`在不同的应用场景下如何融合使用。
+
+# :clipboard: Requirements
 
 - MATLAB R2024b or later
 - Computer Vision Toolbox™
@@ -15,7 +17,7 @@ Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用[Mul
 > [!NOTE]
 > 如果需要在MATLAB环境中运行python代码，那么要安装[opencv\-python](https://pypi.org/project/opencv-python/)包。
 
-# 示例1
+# :notebook: 示例1
 
 本示例简单展示了两幅图像overlap区域的融合，从估计对齐的单应矩阵，然后使用alpha线性组合融合有比较明显的重叠区，随后使用multiBand融合可以明显改善效果。当然也支持对多幅图像输入融合，不限于本示例的2幅图像。
 
@@ -29,6 +31,10 @@ imshowpair(img1,img2,"montage")
 ![figure_0.png](ExamplesEntry_media/figure_0.png)
 
 这2幅图像有比较大的亮度差异，特别是曝光有明显不同。
+
+<details>
+
+<summary>单应矩阵计算代码展开</summary>
 
 ## 计算单应矩阵
 
@@ -76,6 +82,12 @@ disp(tform.A)
   -0.00046859   6.1022e-05            1
 ```
 
+</details>
+
+<details>
+
+<summary>全景图像范围计算代码展开</summary>
+
 ## 全景图像范围计算
 
 要把对齐的图像完整显示出来，就要计算整幅全景图像的在全局坐标系下的坐标范围，MATLAB中一般使用[imref2d](https://ww2.mathworks.cn/help/images/ref/imref2d.html)来代表图像位置空间的坐标参考范围。
@@ -108,6 +120,11 @@ R =
        XIntrinsicLimits: [0.5 2711.5]
        YIntrinsicLimits: [0.5 1779.5]
 ```
+</details>
+
+<details>
+
+<summary>mask掩码区域计算代码展开</summary>
 
 ## mask掩码区域计算
 
@@ -128,6 +145,8 @@ title('Blended Image(alpha blend)');
 ```
 
 ![figure_2.png](ExamplesEntry_media/figure_2.png)
+
+</details>
 
 ## multiBand融合
 
@@ -162,7 +181,7 @@ title("Blended Image(multiBandBlend MATLAB Implementation)")
 
 ![figure_4.png](ExamplesEntry_media/figure_4.png)
 
-## opencv内置实现(可选项)
+## :notebook: opencv内置实现(可选项)
 
 此处直接调用opencv库的multiBlend看看融合效果，前提需要安装[opencv\-python](https://pypi.org/project/opencv-python/)包。关于更多信息请参阅：[Call Python from MATLAB](https://ww2.mathworks.cn/help/matlab/call-python-libraries.html)
 
@@ -186,9 +205,13 @@ title("Blended Image(opencv build-in multiBand)")
 
 ![figure_5.png](ExamplesEntry_media/figure_5.png)
 
-# 示例2
+# :notebook: 示例2
 
-本示例展示了2幅图像在拼接缝的融合，同样，MultiBandBlender类一样灵活支持此类型的输入。
+本示例展示了2幅图像在拼接缝的融合(苹果和橘子图像的融合)，同样，MultiBandBlender类一样灵活支持此类型的输入。
+
+<details>
+      
+<summary> 融合示例代码展开</summary>
 
 ```matlab
 img1_warped = imread("data/apple.png"); % apple1.png,dog.jpg
@@ -208,6 +231,8 @@ imshow(dst)
 ```
 
 ![figure_6.png](ExamplesEntry_media/figure_6.png)
+
+</details>
 
 为增强对比，对不同基本数目的num\_bands看看。
 
@@ -234,7 +259,7 @@ end
 
 ![figure_11.png](ExamplesEntry_media/figure_11.png)
 
-## References
+## :books: References
 
 [1]  [https://docs.opencv.org/4.9.0/d5/d4b/classcv\_1\_1detail\_1\_1MultiBandBlender.html](https://docs.opencv.org/4.9.0/d5/d4b/classcv_1_1detail_1_1MultiBandBlender.html)
 
