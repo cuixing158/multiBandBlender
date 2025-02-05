@@ -15,7 +15,7 @@ on:
 
 jobs:
   # This workflow contains a single job called "build"
-  build:
+ build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -23,7 +23,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
-      
+
+      # Sets up a display server
+      - name: Start display server
+        if: ${{ always() }}
+        run: |
+          sudo apt-get install xvfb
+          Xvfb :99 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+          
       # Sets up MATLAB on a GitHub-hosted runner
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v2
