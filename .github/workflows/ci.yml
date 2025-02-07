@@ -40,7 +40,7 @@ jobs:
           products: MATLAB 
             Image_Processing_Toolbox
             Computer_Vision_Toolbox
-          # List required products above in the format shown (and uncomment them),名字参考?：https://github.com/mathworks-ref-arch/matlab-dockerfile/issues/51#issuecomment-1448665071
+          # List required products above in the format shown (and uncomment them),名字参考：https://github.com/mathworks-ref-arch/matlab-dockerfile/tree/main/mpm-input-files
           # List of product strings:
           # Statistics_and_Machine_Learning_Toolbox
           # Simulink
