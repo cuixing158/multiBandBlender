@@ -47,9 +47,6 @@ arguments
         ])} = "BORDER_CONSTANT"
 end
 
-% Get the size of the input image
-[rows, cols,~] = size(srcImage);
-
 % Generate a meshgrid of output coordinates
 xLimits = options.OutputView.XWorldLimits;
 yLimits = options.OutputView.YWorldLimits;
@@ -64,25 +61,5 @@ inputCoords = transformPointsInverse(tform, [outputX(:), outputY(:)]);
 inputX = reshape(xIntrinsic,size(outputX));
 inputY = reshape(yIntrinsic,size(outputY));
 
-switch options.BorderMode
-    case "BORDER_REPLICATE"
-        % Replicate the nearest edge pixel
-        inputX = max(1, min(cols, inputX));
-        inputY = max(1, min(rows, inputY));
-    case "BORDER_REFLECT"
-        % Reflect the coordinates over the boundary
-        inputX = mod(inputX,2*cols);
-        inputY = mod(inputY,2*rows);
-
-        inputX(inputX>cols) = 2*cols-inputX(inputX>cols);
-        inputY(inputY>rows) = 2*rows-inputY(inputY>rows);
-
-end
-
-if options.BorderMode~="BORDER_CONSTANT"
-    inputX = min(max(1,inputX),2*cols);
-    inputY = min(max(1,inputY),2*rows);
-end
-
-out = images.internal.interp2d(srcImage,inputX,inputY,"linear",0,false);
+out = imageInterp(srcImage,inputX,inputY,FillValues=0,BorderMode=options.BorderMode);
 end
