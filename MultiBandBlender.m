@@ -27,6 +27,8 @@ classdef MultiBandBlender<handle
         dst_mask_
         dst_pyr_laplace_
         dst_band_weights_
+
+        imageRef_
     end
 
     methods
@@ -44,10 +46,14 @@ classdef MultiBandBlender<handle
             %    None
             % Arguments:
             %    obj - [MultiBandBlender] type
-            %    dst_roi - [1,4] size,[double] type,destination panorama
+            %    dst_roi - [1,4] size,[double] type,[x,y,width,height] format,ROI of the destination image
+            %    The destination image is the final panorama image, and the ROI is the top-left
             %    position.
             % Outputs:
             %    obj - [MultiBandBlender] type
+
+            assert(length(dst_roi) == 4, 'dst_roi must be a 1x4 vector.');
+            assert(all(dst_roi(3:4) > 0), 'Width and height of dst_roi must be positive.');
 
             % Prepare the destination image and pyramid structures
             obj.dst_roi = dst_roi;
@@ -68,6 +74,13 @@ classdef MultiBandBlender<handle
                 obj.dst_pyr_laplace_{i} = zeros(ceil(dst_roi(4)/2^(i-1)), ceil(dst_roi(3)/2^(i-1)),3);
                 obj.dst_band_weights_{i} = zeros(ceil(dst_roi(4)/2^(i-1)), ceil(dst_roi(3)/2^(i-1)));
             end
+
+            dst_panorama_width = dst_roi(3);
+            dst_panorama_height = dst_roi(4);
+
+            xLimitWorld = [obj.dst_roi(1), obj.dst_roi(1) + dst_panorama_width-1];
+            yLimitWorld = [obj.dst_roi(2), obj.dst_roi(2) + dst_panorama_height-1];
+            obj.imageRef_ = imref2d([dst_panorama_height, dst_panorama_width], xLimitWorld, yLimitWorld);
         end
 
         function obj = feed(obj, img, mask, tl)
@@ -99,6 +112,15 @@ classdef MultiBandBlender<handle
             assert(tl(1)>=obj.dst_roi(1)&& tl(1)+w-1<=obj.dst_roi(1)+obj.dst_roi(3)&&...
                 tl(2)>=obj.dst_roi(2)&& tl(2)+h-1<=obj.dst_roi(2)+obj.dst_roi(4),'Image ROI must be inside global dst_roi.');
 
+            % warp the image and mask to the destination panorama
+            Ra = imref2d([h,w],[tl(1),tl(1)+w-1],[tl(2),tl(2)+h-1]);
+            img = imageWarp(img,rigidtform2d(),RA=Ra,OutputView=obj.imageRef_ ,BorderMode="BORDER_REFLECT");
+            mask = imageWarp(mask,rigidtform2d(),RA=Ra,OutputView=obj.imageRef_ ,BorderMode="BORDER_CONSTANT");
+
+            % reset the top-left corner of the image
+            tl = [1,1];
+
+            % convert the image and mask to double type for calculation convenience
             img = im2double(img);
             mask = im2double(mask);
 
@@ -108,7 +130,7 @@ classdef MultiBandBlender<handle
             % Normalize the mask and create the Gaussian pyramid for the weight map
             weight_pyr_gauss = createGaussianPyr(obj, mask);
 
-            tl = tl - obj.dst_roi(1:2) + 1;
+            % tl = tl - obj.dst_roi(1:2) + 1;
 
             % Add weighted layers to the destination pyramids
             for i = 1:obj.num_bands + 1
