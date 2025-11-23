@@ -35,7 +35,7 @@ function outImage = imageInterp(inImage,mapX,mapY,options)
 % Copyright © 2025 TheMatrix.All Rights Reserved.
 %
 arguments
-    inImage {mustBeNumeric,mustBeFinite} % 输入图像
+    inImage {mustBeFinite} % 输入图像
     mapX (:,:) double {mustBeNumeric,mustBeFinite} % 输入图像的 X 坐标映射，大小为 [oH, oW]，类型为 double/single
     mapY (:,:) double {mustBeNumeric,mustBeFinite} % 输入图像的 Y 坐标映射，大小为 [oH, oW]，类型为 double/single
     options.FillValues (1,1) double {mustBeInRange(options.FillValues,0,255)}=0

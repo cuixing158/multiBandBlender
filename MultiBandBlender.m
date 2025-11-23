@@ -1,4 +1,4 @@
-classdef MultiBandBlender<handle
+classdef MultiBandBlender
     % Brief: 多频段融合器，用于全景拼接overlap区域或者拼接缝，消除色差，平滑过渡
     % Details:
     %    实现等同于OpenCV中的MultiBandBlender融合器，prepare,feed,blend三个公有外部函数接口
@@ -52,7 +52,11 @@ classdef MultiBandBlender<handle
             % Outputs:
             %    obj - [MultiBandBlender] type
 
-            assert(length(dst_roi) == 4, 'dst_roi must be a 1x4 vector.');
+            arguments
+                obj MultiBandBlender
+                dst_roi (1,4) double
+            end
+
             assert(all(dst_roi(3:4) > 0), 'Width and height of dst_roi must be positive.');
 
             % Prepare the destination image and pyramid structures
