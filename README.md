@@ -24,6 +24,9 @@ Multi\-Band Blender在MATLAB中的实现示例，主要是展示如何使用[Mul
 
 本示例简单展示了两幅图像overlap区域的融合，从估计对齐的单应矩阵，然后使用alpha线性组合融合有比较明显的重叠区，随后使用multiBand融合可以明显改善效果。当然也支持对多幅图像输入融合，不限于本示例的2幅图像。
 
+> [!TIP]
+> 对于具有视差的图像拼接请参阅我这个[repo](https://github.com/cuixing158/Robust-Elastic-Warping)
+
 ```matlab
 %  img1 和 img2 是需要融合的两幅图像
 img1 = imread('data/medium16.JPG');
